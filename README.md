@@ -59,28 +59,32 @@ git --version
 В терминале:
 ```bash
 cd ~
-git clone <URL-репозитория-дам-я> ai-audit
+git clone https://github.com/orlanqur/ai-visibility-audit.git ai-audit
 cd ai-audit
 ```
-(я пришлю тебе точный URL, когда зальём на GitHub)
 
-### 1.6. Клонируй и установи docs-intelligence-mcp
+### 1.6. Установи docs-intelligence-mcp
 
-Этот MCP-сервер даёт Claude семантический поиск по нарезке. Ставим его один раз:
+Этот MCP-сервер даёт Claude семантический поиск по нарезке. Самый простой путь — **попросить Claude установить его за тебя**. Для этого сначала сделай шаги 1.7 и 2 ниже (откроешь проект в VSCode), потом напиши Claude:
 
+> «Установи docs-intelligence-mcp. Вызови skill `install-mcp`.»
+
+Claude сам склонирует репозиторий, создаст venv, установит пакет и проверит что `docs-intel` работает.
+
+**Если хочешь сделать руками** (резервный путь):
 ```bash
 cd ~
-git clone <URL-docs-intelligence-mcp> docs-intelligence-mcp
+git clone https://github.com/orlanqur/docs-intelligence-mcp.git
 cd docs-intelligence-mcp
 python3.11 -m venv venv
 source venv/bin/activate
 pip install -e .
+which docs-intel   # путь к бинарю — должен быть /Users/<ты>/docs-intelligence-mcp/venv/bin/docs-intel
 ```
 
-Проверка:
+В каждом новом терминале перед использованием `docs-intel` активируй venv:
 ```bash
-which docs-intel
-# должно быть что-то вроде /Users/ты/docs-intelligence-mcp/venv/bin/docs-intel
+source ~/docs-intelligence-mcp/venv/bin/activate
 ```
 
 ### 1.7. OpenAI API-ключ
@@ -178,11 +182,9 @@ Skill `pipeline-guide` даст тебе одну команду за раз:
    ```
 4. Индексация MCP (чтобы работал семантический поиск):
    ```bash
-   cd projects/<бренд>
-   source ~/docs-intelligence-mcp/venv/bin/activate
-   docs-intel index .
-   cd ../..
+   ~/docs-intelligence-mcp/venv/bin/docs-intel index projects/<бренд>
    ```
+   (абсолютный путь — так не нужно каждый раз активировать venv)
 
 После этого система готова. Каждый раз спрашивай `pipeline-guide`, если растерялась — он видит состояние и подскажет.
 
@@ -238,7 +240,7 @@ Claude позовёт `pipeline-guide` и скажет один шаг.
 
 ## 5. FAQ / частые грабли
 
-**`docs-intel: command not found`** — ты не активировала venv. Запусти `source ~/docs-intelligence-mcp/venv/bin/activate`. В каждом новом терминале — заново.
+**`docs-intel: command not found`** — venv не активирован. Самый простой фикс: используй абсолютный путь `~/docs-intelligence-mcp/venv/bin/docs-intel ...`. Он работает в любом терминале без активации. Если не хочешь каждый раз писать путь — перед использованием запусти `source ~/docs-intelligence-mcp/venv/bin/activate` (это активирует venv только в текущем окне терминала).
 
 **`python scripts/slice.py --project ...` жалуется «нет .md»** — проверь, что файлы лежат именно в `projects/<бренд>/responses/`, а не в корне или в `responses/`.
 
