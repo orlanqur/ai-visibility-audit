@@ -14,10 +14,11 @@ import json
 import re
 from pathlib import Path
 
-# Маркеры секций. Если в следующем аудите формат чуть другой — правь здесь.
-QUESTION_RE = re.compile(r"^### Вопрос (\d+)\s*$", re.MULTILINE)
-ANSWER_RE   = re.compile(r"^### Ответ (\d+)\s*$", re.MULTILINE)
-SOURCES_RE  = re.compile(r"^### Источники (\d+)\s*$", re.MULTILINE)
+# Маркеры секций. Допускаем уровни заголовков ## и ### (можно микс).
+# Если в следующем аудите формат чуть другой — правь здесь (например, добавь #{2,4}).
+QUESTION_RE = re.compile(r"^#{2,3}\s+Вопрос\s+(\d+)\s*$",  re.MULTILINE)
+ANSWER_RE   = re.compile(r"^#{2,3}\s+Ответ\s+(\d+)\s*$",   re.MULTILINE)
+SOURCES_RE  = re.compile(r"^#{2,3}\s+Источники\s+(\d+)\s*$", re.MULTILINE)
 
 # Имя файла: {Model}-{Brand}.md
 FILENAME_RE = re.compile(r"^(?P<model>[^-]+)-(?P<brand>.+)\.md$")
