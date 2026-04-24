@@ -1,0 +1,27 @@
+# venv
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# секреты
+.env
+.env.local
+
+# артефакты пайплайна (генерируются из responses/ скриптами)
+projects/*/sliced/
+projects/*/metrics/
+projects/*/reports/
+projects/*/.docs-intel/
+
+# индекс MCP, если запущен в корне
+.docs-intel/
+
+# локальные / тестовые файлы автора
+katerina.md
+*.zip
+*.docx
+
+# системное
+.DS_Store
+Thumbs.db

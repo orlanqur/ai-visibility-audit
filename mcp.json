@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "docs-intel": {
+      "command": "docs-intel",
+      "args": ["serve", "."],
+      "env": {
+        "DOCS_INTEL_ROOTS": "."
+      }
+    }
+  }
+}
